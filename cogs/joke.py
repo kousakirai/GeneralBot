@@ -1,18 +1,17 @@
 from discord.ext import commands
 from core.bot import GBot
-from discord_slash import cog_ext, SlashContext
 
 
 class Joke(commands.Cog):
     def __init__(self, bot: GBot):
         self.bot = bot
 
-    @cog_ext.cog_slash(name="gold")
-    async def _gold(self, ctx: SlashContext, Quantity):
+    @commands.slash_command(name="gold")
+    async def _gold(self, ctx, Quantity):
         await ctx.send(f"金塊を{Quantity}個生成しました。")
 
-    @cog_ext.cog_slash(name="JS")
-    async def _JS(self, ctx: SlashContext):
+    @commands.slash_command(name="JS")
+    async def _JS(self, ctx):
         await ctx.send(f"{ctx.author.mention}JS最強！")
 
 
