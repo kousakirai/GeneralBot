@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "generalbot"
+version = "0.1.0"
+description = ""
+authors = ["None"]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+sanic = "^21.6.2"
+typing-extensions = "^3.10.0"
+youtube_dl = "^2021.6.6"
+captcha = "^0.3"
+jishaku = "^2.3.0"
+wheel = "^0.37.0"
+mongoengine = "^0.23.1"
+psutil = "^5.8.0"
+jtalkpy = "^1.0.0"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.6"]
+build-backend = "poetry.core.masonry.api"
