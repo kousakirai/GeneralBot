@@ -14,7 +14,7 @@ class Authsys(commands.Cog):
     @commands.Cog.listener()
     async def on_member_join(self, member):
         guild = Guild(member.guild.id).get()
-        if guild.auth == False:
+        if guild.auth is False:
             return
         password = random.randint(1000, 9999)
         image = ImageCaptcha()
@@ -29,7 +29,7 @@ class Authsys(commands.Cog):
     async def on_message(self, message):
         auth = Auth(message.author.id).get()
         guild = Guild(message.guild.id).get()
-        if guild.auth == False:
+        if guild.auth is False:
             return
 
         if auth:
@@ -45,10 +45,11 @@ class Authsys(commands.Cog):
 
         else:
             return
+
     @commands.command()
     async def authtest(self, ctx):
-        guild = Guild(member.guild.id).get()
-        if guild.auth == False:
+        guild = Guild(ctx.author.guild.id).get()
+        if guild.auth is False:
             return
         image = ImageCaptcha()
         password = random.randint(1000, 9999)
@@ -56,7 +57,9 @@ class Authsys(commands.Cog):
         image.write(password, 'out.png')
         Auth.create(id=ctx.author.id, password=password)
         file = discord.File("GBot/cogs/I/Image/out.png", filename="pass.png")
-        await channel.send(f"{member.mention}画像にある数字を入力してください。", file=file)
+        channel = guild.auth_ch
+        await channel.send(f"{ctx.author.mention}画像にある数字を入力してください。", file=file)
+
 
 def setup(bot):
     return bot.add_cog(Authsys(bot))
