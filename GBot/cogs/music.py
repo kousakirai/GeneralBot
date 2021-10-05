@@ -19,7 +19,8 @@ ytdl_format_options = {
     'quiet': True,
     'no_warnings': True,
     'default_search': 'auto',
-    'source_address': '0.0.0.0' # bind to ipv4 since ipv6 addresses cause issues sometimes
+    # bind to ipv4 since ipv6 addresses cause issues sometimes
+    'source_address': '0.0.0.0'
 }
 
 ffmpeg_options = {
@@ -40,15 +41,17 @@ class YTDLSource(discord.PCMVolumeTransformer):
 
     @classmethod
     async def from_url(cls, url, *, loop=None, stream=False):
+        dload = not stream
         loop = loop or asyncio.get_event_loop()
-        data = await loop.run_in_executor(None, lambda: ytdl.extract_info(url, download=not stream))
+        data = await loop.run_in_executor(None, lambda: ytdl.extract_info(url, download=dload))
 
         if 'entries' in data:
             # take first item from a playlist
             data = data['entries'][0]
 
-        filename = data['url'] if stream else ytdl.prepare_filename(data)
-        return cls(discord.FFmpegPCMAudio(filename, **ffmpeg_options), data=data)
+        fname = data['url'] if stream else ytdl.prepare_filename(data)
+        return cls(discord.FFmpegPCMAudio(fname, **ffmpeg_options), data=data)
+
 
 class Voicemusic(commands.Cog):
     def __init__(self, bot: GBot):
@@ -59,9 +62,13 @@ class Voicemusic(commands.Cog):
         if ctx.invoked_subcommand is None:
             await ctx.send("引数・コマンドが不正です。")
 
-    #@music.command()
-    #async def play(self, ctx):
-        #if isinstance( message.author.voice.channel.connect, discord.stageinstance):
+    @music.command()
+    async def play(self, ctx):
+        member = ctx.author
+        con = member.voice.channel.connect
+        if isinstance(con, discord.stageinstance):
+            return
+
 
 def setup(bot):
     return bot.add_cog(Voicemusic(bot))

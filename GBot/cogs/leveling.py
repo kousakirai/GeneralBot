@@ -1,6 +1,4 @@
-import discord
 from discord.ext import commands
-import random
 from GBot.core.bot import GBot
 
 
