@@ -7,8 +7,6 @@ from jishaku.functools import executor_function
 from aiofiles import open as async_open, os
 from functools import wraps
 import psutil
-import subprocess
-import sys
 from GBot.core.bot import GBot
 
 
@@ -47,21 +45,23 @@ class Debug(commands.Cog):
     async def debug(self, ctx):
         if not ctx.invoked_subcommand:
             await ctx.reply("使用方法が違います。")
+
     @debug.command()
     async def reboot(self, ctx):
         await ctx.reply("再起動します。")
         await GBot.sanic.stop()
         await GBot.close()
+
     @debug.command(aliases=["exec", "run"])
     @commands.is_owner()
     async def execute(self, ctx, *, code):
         printer = Printer()
         exec(
             "async def _program():\n  {}\n{}"
-                .format(
-                    '\n  '.join(code.splitlines()),
-                    "self._program = _program\ndel _program"
-                ),
+            .format(
+                '\n  '.join(code.splitlines()),
+                "self._program = _program\ndel _program"
+            ),
             {"bot": self.bot, "ctx": ctx, "discord": discord,
              "self": self, "print": printer.print}
         )
@@ -69,7 +69,7 @@ class Debug(commands.Cog):
         async with async_open(self.OUTPUT_PATH, "w") as f:
             await f.write(
                 "<<<STDOUT>>>\n{}\n<<<RETURN>>>\n{}"
-                    .format(printer.output, str(result))
+                .format(printer.output, str(result))
             )
         await ctx.reply(file=discord.File(self.OUTPUT_PATH))
         await os.remove(self.OUTPUT_PATH)
