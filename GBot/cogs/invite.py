@@ -1,4 +1,3 @@
-import discord
 from discord.ext import commands
 from GBot.core.bot import GBot
 
@@ -17,6 +16,7 @@ class invites(commands.Cog):
                 for member in guild.members:
                     if invite.target_user.name == member.name:
     """
+
 
 def setup(bot):
     return bot.add_cog(invites(bot))

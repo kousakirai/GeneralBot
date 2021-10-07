@@ -43,7 +43,8 @@ class YTDLSource(discord.PCMVolumeTransformer):
     async def from_url(cls, url, *, loop=None, stream=False):
         dload = not stream
         loop = loop or asyncio.get_event_loop()
-        data = await loop.run_in_executor(None, lambda: ytdl.extract_info(url, download=dload))
+        def lam(): return ytdl.extract_info(url, download=dload)
+        data = await loop.run_in_executor(None, lam)
 
         if 'entries' in data:
             # take first item from a playlist
@@ -65,8 +66,8 @@ class Voicemusic(commands.Cog):
     @music.command()
     async def play(self, ctx):
         member = ctx.author
-        con = member.voice.channel.connect
-        if isinstance(con, discord.stageinstance):
+        connect = member.voice.channel.connect
+        if isinstance(connect, discord.stageinstance):
             return
 
 
