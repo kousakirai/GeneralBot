@@ -2,3 +2,5 @@
 .env
 .toml
 Pipfile
+.sh
+.replit
