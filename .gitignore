@@ -4,3 +4,4 @@
 Pipfile
 .sh
 .replit
+Pipfile.lock
