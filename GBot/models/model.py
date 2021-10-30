@@ -1,6 +1,6 @@
 from mongoengine import (
     Document, StringField, IntField,
-    BooleanField, ListField
+    BooleanField
 )
 
 
@@ -17,6 +17,7 @@ class Guild(Document):
     auth = BooleanField(default=False)
     authch = IntField(required=False, default=None)
     authrole = IntField(required=False, default=None)
+
 
 class Auth(Document):
     id = IntField(required=True, primary_key=True)
