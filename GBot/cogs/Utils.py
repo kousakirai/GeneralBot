@@ -2,7 +2,8 @@ from discord.ext import commands
 import discord
 from discord.ext.commands.errors import (
     MissingPermissions,
-    MissingRequiredArgument)
+    MissingRequiredArgument
+)
 
 from GBot.core.bot import GBot
 import math
