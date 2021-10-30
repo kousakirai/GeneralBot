@@ -2,6 +2,4 @@
 .env
 .toml
 Pipfile
-.sh
-.replit
 Pipfile.lock
