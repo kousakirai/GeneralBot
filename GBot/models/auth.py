@@ -2,10 +2,11 @@ from GBot.models import model
 
 modelname = model.Auth
 
+
 class Auth:
     def __init__(self, user_id):
         self.user_id = user_id
-        
+
     def get(self):
         rest = modelname.objects.filter(id=self.user_id).first()
         return rest
@@ -22,4 +23,4 @@ class Auth:
     def create(cls, *, user_id):
         rest = modelname(id=user_id)
         rest.save()
-        return rest 
+        return rest

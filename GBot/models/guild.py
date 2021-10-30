@@ -2,10 +2,11 @@ from GBot.models import model
 
 modelname = model.Guild
 
+
 class Guild:
     def __init__(self, guild_id):
         self.guild_id = guild_id
-        
+
     def get(self):
         rest = modelname.objects.filter(id=self.guild_id).first()
         return rest
@@ -22,4 +23,4 @@ class Guild:
     def create(cls, *, guild_id):
         rest = modelname(id=guild_id)
         rest.save()
-        return rest 
+        return rest
