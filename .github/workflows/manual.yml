@@ -1,9 +1,9 @@
-name: CI
+name: AutoDeploy
 
 on:
   push:
     branches:
-      - main
+      - master
 
 jobs:
   build:
