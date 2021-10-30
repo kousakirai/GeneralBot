@@ -13,7 +13,6 @@ from discord.ext.commands.errors import (
 from sanic import Sanic
 from sanic.response import text
 from sanic.log import logger
-import subprocess
 
 
 class GBot(commands.Bot):
@@ -22,7 +21,6 @@ class GBot(commands.Bot):
         self.app = Sanic("Generalbot")
         self.app.register_listener(self.setup, "main_process_start")
         self.app.register_listener(self.stop, "before_server_stop")
-        self.app.add_route(self.webhook, "/autodeploy")
 
     async def is_owner(self, user: discord.User):
         if user.id in data["team_id"]:
@@ -124,9 +122,6 @@ class GBot(commands.Bot):
     async def stop(self, app, loop):
         logger.info("shutdown...")
         await self.close()
-
-    async def webhook(request):
-        return subprocess.Popen("git pull origin master")
 
     def run(self):
         self.app.run(host="0.0.0.0", port=8080)
