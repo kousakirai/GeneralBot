@@ -11,7 +11,8 @@ from GBot.models.guild import Guild
 
 
 async def reply(message):
-    reply = f'{message.author.mention} プレフィックスは`g!`です。'
+    guild = Guild(message.guild.id).get()
+    reply = f'{message.author.mention} プレフィックスは`{guild.prefix}`です。'
     await message.channel.send(reply)
 
 
