@@ -16,13 +16,13 @@ class leveling(commands.Cog):
 
     @tasks.loop(seconds=60)
     async def update_level(self, user_id):
-        num = random.randint(0, 5)
-        level = Level(user_id)
+        pass
 
     @commands.Cog.listener()
     async def on_message(self, message):
         level = Level(message.author.id).get()
         if level < 0:
+            return
 
 
 def setup(bot):
