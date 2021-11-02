@@ -106,6 +106,6 @@ class GBot(commands.Bot):
             print("Discord Tokenが不正です")
         except KeyboardInterrupt:
             print("終了します")
-            self.loop.run_until_complete(self.logout())
+            self.loop.run_until_complete(self.close())
         except Exception:
             traceback.print_exc()
