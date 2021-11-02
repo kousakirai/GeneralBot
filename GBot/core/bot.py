@@ -10,17 +10,13 @@ from discord.ext.commands.errors import (
     BadArgument,
     NotOwner
 )
-from sanic import Sanic
-from sanic.response import text
-from sanic.log import logger
+import traceback
 
 
 class GBot(commands.Bot):
     def __init__(self, token):
         self.token = token
-        self.app = Sanic("Generalbot")
-        self.app.register_listener(self.setup, "main_process_start")
-        self.app.register_listener(self.stop, "before_server_stop")
+        super().__init__(command_prefix=None, help_command=Help())
 
     async def is_owner(self, user: discord.User):
         if user.id in data["team_id"]:
@@ -102,26 +98,14 @@ class GBot(commands.Bot):
                 self.load_extension(f"GBot.cogs.{filename[:-3]}")
                 print(f"{filename[:-3]}をロード")
         self.load_extension("jishaku")
-        logger.info("Bot online")
-
-    async def setup(self, app, loop):
-        @self.app.route('/')
-        async def main(request):
-            return text("Alive")
-
-        intents = discord.Intents.all()
-        intents.typing = False
-        super().__init__(command_prefix=None,
-                         intents=intents,
-                         help_command=Help()
-                         )
-        loop.create_task(self.start(self.token))
-        await self.wait_until_ready()
-        logger.info("starting...")
-
-    async def stop(self, app, loop):
-        logger.info("shutdown...")
-        await self.close()
 
     def run(self):
-        self.app.run(host="0.0.0.0", port=8080)
+        try:
+            self.loop.run_until_complete(self.start(self.token))
+        except discord.LoginFailure:
+            print("Discord Tokenが不正です")
+        except KeyboardInterrupt:
+            print("終了します")
+            self.loop.run_until_complete(self.logout())
+        except Exception:
+            traceback.print_exc()
