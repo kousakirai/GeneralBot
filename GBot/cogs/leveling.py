@@ -1,6 +1,6 @@
 from discord.ext import commands, tasks
 from GBot.core.bot import GBot
-from GBot.models.auth import Level
+from GBot.models.level import Level
 import random
 
 
