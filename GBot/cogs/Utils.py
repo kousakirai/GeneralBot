@@ -8,6 +8,8 @@ from discord.ext.commands.errors import (
 from GBot.core.bot import GBot
 import math
 from GBot.models.guild import Guild
+from time import monotonic
+import asyncio 
 
 
 async def reply(message):
