@@ -25,7 +25,7 @@ class leveling(commands.Cog):
         for user_id in self.data.keys():
             level = Level(user_id).get()
             num = random.randint(0, 5)
-            level.set(exp=+num)
+            Level(user_id).set(exp=+num)
             if level.exp > level.level * 6:
                 old_level = level.level
                 current_level = level.level + 1
