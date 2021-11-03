@@ -20,7 +20,7 @@ class leveling(commands.Cog):
 
     @tasks.loop(seconds=10)
     async def update_level(self):
-        if len(self.data) == 0:
+        if len(self.data.keys()) == 0:
             return
         for user_id in self.data.keys():
             level = Level(user_id).get()
@@ -53,7 +53,28 @@ class leveling(commands.Cog):
             "message_ch": message.channel.id,
         }
         with open("queue.Json", mode="w") as f:
-            json.dump(self.data, f, indent=4)
+            json.dumps(self.data, f, indent=4)
+
+    @commands.group()
+    async def level(self, ctx):
+        if ctx.invoked_subcommand is None:
+            return
+
+    @level.command()
+    async def check(self, ctx):
+        level = Level(ctx.author.id).get()
+        if level:
+            title = f"現在の__{ctx.author.name}__さんのレベル"
+            description = " "
+            embed = discord.Embed(title=title, description=description)
+            embed.add_field(name="レベル", value=level.level)
+            embed.add_field(name="経験値", value=level.exp)
+            next_exp = level.level * 6 - level.exp
+            embed.add_field(name="次のレベルに必要な経験値", value=next_exp)
+        else:
+            level = self.create_level(ctx.author.id)
+            level = level.get()
+            await ctx.send("レベルを作成しました。再度checkコマンドを\n実行してください。")
 
 
 def setup(bot):
