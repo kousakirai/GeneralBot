@@ -16,7 +16,7 @@ class leveling(commands.Cog):
 
     def create_level(self, user_id):
         level = Level.create(user_id=user_id)
-        return level.get()
+        return level
 
     @tasks.loop(seconds=10)
     async def update_level(self):
