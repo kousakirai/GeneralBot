@@ -60,7 +60,7 @@ class GBot(commands.Bot):
         print("サーバー:", guild.name)
         print("接頭文字:", guild.prefix)
         print("認証：", str(guild.auth))
-        print("レベル", str(guild.level))
+        print("レベル：", str(guild.level))
 
     async def on_command_error(self, ctx, error):
         guild = Guild(ctx.guild.id).get()
