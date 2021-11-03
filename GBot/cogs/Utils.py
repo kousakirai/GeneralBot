@@ -24,7 +24,16 @@ class Utils(commands.Cog):
 
     @commands.command()
     async def ping(self, ctx):
-        await ctx.send(f"現在のレイテンシ：{math.floor(self.bot.latency)}")
+                # Δt = t1 - t0 の t0 を定義する。
+        t0 = monotonic()
+        # Discord を通す関数を挟む。(応答速度)
+        ping_message = await ctx.send(embed=discord.Embed(title="計算中...",description=' '))
+
+            # Δt = t1 - t0, latency は ping 的な意味、応答速度。1000倍は、ms(ミリセカンド)にするため。
+        latency = (monotonic() - t0) * 1000
+
+        # 送っていたメッセージを編集。ここで、応答速度を表示する。int にしているのは、小数点を消すため。( int は整数値)
+        await ping_message.edit(embed=discord.Embed(title=f"Pong! 応答速度**{int(latency)}** ms です。",color=discord.Color.random()))
 
     @commands.command(ignore_extra=False)
     @commands.has_permissions(administrator=True)
