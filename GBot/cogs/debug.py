@@ -44,7 +44,7 @@ class Debug(commands.Cog):
     @commands.group()
     async def debug(self, ctx):
         if not ctx.invoked_subcommand:
-            await ctx.reply("使用方法が違います。")
+            await ctx.reply("使用方法が違います。使用方法を確認してください")
 
     @debug.command()
     async def reboot(self, ctx):
