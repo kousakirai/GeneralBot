@@ -47,13 +47,12 @@ class leveling(commands.Cog):
     @commands.Cog.listener()
     async def on_message(self, message):
         level = Level(message.author.id).get()
-        if not level:
+        if level:
+            data[message.author.id] = message.channel.id
+            with open("queue.Json", mode="w") as f:
+                json.dump(data, f, indent=4)
+        else:
             level = self.create_level(message.author.id)
-        data[message.author.id] = {
-            "message_ch": message.channel.id
-        }
-        with open("queue.Json", mode="w") as f:
-            json.dump(data, f, indent=4)
 
     @commands.group()
     async def level(self, ctx):
