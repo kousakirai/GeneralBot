@@ -29,7 +29,7 @@ class leveling(commands.Cog):
             if level.exp > level.level * 6:
                 old_level = level.level
                 current_level = level.level + 1
-                level.set(exp=0, level=current_level)
+                Level(user_id).set(exp=0, level=current_level)
                 embed = discord.Embed(title="レベルが上ったよ！", description=" ")
                 name = f"**{old_level}**から{current_level}**になったよ！"
                 value = f"次のレベルアップに必要な経験値：{level.level*6}"
