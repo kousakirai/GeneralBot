@@ -20,7 +20,7 @@ class leveling(commands.Cog):
 
     @tasks.loop(seconds=10)
     async def update_level(self):
-        if len(self.data.keys()) == 0:
+        if len(self.data.keys) == 0:
             return
         for user_id in self.data.keys():
             level = Level(user_id).get()
