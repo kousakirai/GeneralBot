@@ -3,7 +3,6 @@ from GBot.core.bot import GBot
 from GBot.models.level import Level
 import random
 import discord
-import aiofiles
 import json
 
 
@@ -12,7 +11,7 @@ class leveling(commands.Cog):
         self.bot = bot
         self.update_level.start()
 
-    with aiofiles.open("queue.json", ) as f:
+    with open("queue.json", ) as f:
         data = json.load(f)
 
     def create_level(self, user_id):
@@ -53,7 +52,7 @@ class leveling(commands.Cog):
         self.data[message.author.id] = {
             "message_ch": message.channel.id,
         }
-        with aiofiles.open("queue.json", mode="w") as f:
+        with open("queue.json", mode="w") as f:
             json.dump(self.data, f, indent=4)
 
 
