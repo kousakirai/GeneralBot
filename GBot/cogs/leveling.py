@@ -11,7 +11,7 @@ class leveling(commands.Cog):
         self.bot = bot
         self.update_level.start()
 
-    with open("queue.Json", ) as f:
+    with open("queue.Json", "r") as f:
         data = json.load(f)
 
     def create_level(self, user_id):
@@ -53,7 +53,7 @@ class leveling(commands.Cog):
             "message_ch": message.channel.id,
         }
         with open("queue.Json", mode="w") as f:
-            json.dumps(self.data, f, indent=4)
+            json.dump(self.data, f, indent=4)
 
     @commands.group()
     async def level(self, ctx):
