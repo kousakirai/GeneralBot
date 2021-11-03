@@ -47,7 +47,7 @@ class leveling(commands.Cog):
     @commands.Cog.listener()
     async def on_message(self, message):
         level = Level(message.author.id).get()
-        if level < 0:
+        if not level:
             level = self.create_level(message.author.id)
         self.data[message.author.id] = {
             "message_ch": message.channel.id,

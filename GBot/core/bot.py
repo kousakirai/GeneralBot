@@ -85,7 +85,7 @@ class GBot(commands.Bot):
 
         else:
             print(error)
-            channel = self.bot.get_channel(data["devch"])
+            channel = self.get_channel(data["devch"])
             embed.title = "未知のエラー"
             embed.description = " "
             embed.add_field(name=error, value="エラーを修正してください。")
