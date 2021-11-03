@@ -5,14 +5,14 @@ import random
 import discord
 import json
 
+with open("queue.Json", "r") as f:
+    data = json.load(f)
+
 
 class leveling(commands.Cog):
     def __init__(self, bot: GBot):
         self.bot = bot
         self.update_level.start()
-
-    with open("queue.Json", "r") as f:
-        data = json.load(f)
 
     def create_level(self, user_id):
         level = Level.create(user_id=user_id)
@@ -20,9 +20,9 @@ class leveling(commands.Cog):
 
     @tasks.loop(seconds=10)
     async def update_level(self):
-        if len(self.data.keys) == 0:
+        if len(data.keys) == 0:
             return
-        for user_id in self.data.keys():
+        for user_id in data.keys():
             level = Level(user_id).get()
             num = random.randint(0, 5)
             Level(user_id).set(exp=+num)
@@ -49,11 +49,11 @@ class leveling(commands.Cog):
         level = Level(message.author.id).get()
         if not level:
             level = self.create_level(message.author.id)
-        self.data[message.author.id] = {
+        data[message.author.id] = {
             "message_ch": message.channel.id,
         }
         with open("queue.Json", mode="w") as f:
-            json.dump(self.data, f, indent=4)
+            json.dump(data, f, indent=4)
 
     @commands.group()
     async def level(self, ctx):
