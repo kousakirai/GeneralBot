@@ -50,7 +50,7 @@ class leveling(commands.Cog):
         if not level:
             level = self.create_level(message.author.id)
         data[message.author.id] = {
-            "message_ch": message.channel.id,
+            "message_ch": message.channel.id
         }
         with open("queue.Json", mode="w") as f:
             json.dump(data, f, indent=4)
