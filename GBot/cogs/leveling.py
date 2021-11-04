@@ -5,7 +5,7 @@ import random
 import discord
 import json
 
-with open("queue.Json", "r") as f:
+with open("Gbot/queue.json", "r") as f:
     data = json.load(f)
 
 
