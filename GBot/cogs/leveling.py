@@ -1,9 +1,5 @@
-from discord.ext import commands, tasks
+from discord.ext import commands
 from GBot.core.bot import GBot
-from GBot.models.level import Level
-import random
-import discord
-import json
 
 
 class leveling(commands.Cog):
