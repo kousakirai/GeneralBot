@@ -22,3 +22,8 @@ class Guild(Document):
 class Auth(Document):
     id = IntField(required=True, primary_key=True)
     password = IntField(required=True)
+
+
+class LevelQueue(Document):
+    user_id = IntField(required=True, primary_key=True)
+    message_ch = IntField(required=True)
