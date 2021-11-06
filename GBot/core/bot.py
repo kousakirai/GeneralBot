@@ -89,8 +89,8 @@ class GBot(commands.Bot):
             embed.title = "未知のエラー"
             embed.description = " "
             embed.add_field(name=error, value="エラーを修正してください。")
-            return await channel.send(embed=embed)
-        await ctx.send(embed=embed)
+            await channel.send(embed=embed)
+        return await ctx.send(embed=embed)
 
     async def on_ready(self):
         for filename in os.listdir("GBot/cogs"):
