@@ -2,6 +2,5 @@
 .env
 .toml
 Pipfile
-Pipfile.lock
-Pipfile.lock
 .vscode/settings.json
+Pipfile.lock

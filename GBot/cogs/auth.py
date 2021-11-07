@@ -14,6 +14,8 @@ class Authsys(commands.Cog):
     @commands.Cog.listener()
     async def on_member_join(self, member):
         guild = Guild(member.guild.id).get()
+        if not guild:
+            return
         if guild.auth is False:
             return
         password = random.randint(1000, 9999)
