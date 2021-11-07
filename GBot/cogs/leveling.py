@@ -15,7 +15,7 @@ class leveling(commands.Cog):
     async def on_message(self, message):
         self.queue[message.author.id] = message.channel.id
 
-    @tasks.loop()
+    @tasks.loop(second=5)
     async def queue(self):
         if len(self.queue) < 0:
             return
