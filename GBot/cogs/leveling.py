@@ -11,6 +11,10 @@ class leveling(commands.Cog):
         self.bot = bot
         self.queue = {}
 
+    @commands.Cog.listener()
+    async def on_message(self, message):
+        self.queue[message.author.id] = message.channel.id
+
     @tasks.loop()
     async def queue(self):
         if len(self.queue) < 0:
