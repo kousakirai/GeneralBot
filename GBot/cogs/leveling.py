@@ -1,9 +1,9 @@
 from discord.ext import commands, tasks
 from GBot.core.bot import GBot
-from models.level import Level
+from GBot.models.level import Level
 import random
 import discord
-from models.guild import Guild
+from GBot.models.guild import Guild
 
 class leveling(commands.Cog):
     def __init__(self, bot: GBot):
