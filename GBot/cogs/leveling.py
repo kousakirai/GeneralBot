@@ -10,13 +10,13 @@ class leveling(commands.Cog):
     def __init__(self, bot: GBot):
         self.bot = bot
         self.queue = {}
-
+        self.Lqueue.start()
     @commands.Cog.listener()
     async def on_message(self, message):
         self.queue[message.author.id] = message.channel.id
 
-    @tasks.loop(second=5)
-    async def queue(self):
+    @tasks.loop(seconds=5)
+    async def Lqueue(self):
         if len(self.queue) < 0:
             return
         elif len(self.queue) > 0:
@@ -68,10 +68,19 @@ class leveling(commands.Cog):
         else:
             return
 
+    @Lqueue.before_loop
+    async def before_printer(self):
+        print('waiting...')
+        await self.bot.wait_until_ready()
+
+    def cog_unload(self):
+        self.Lqueue.cancel()
+
     @commands.group()
     async def level(self, ctx):
         if ctx.invoked_subcommand is None:
             return
+
     @level.command()
     async def check(self, ctx):
         level = Level(ctx.author.id).get()
