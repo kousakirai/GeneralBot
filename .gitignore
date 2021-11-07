@@ -3,4 +3,3 @@
 .toml
 Pipfile
 .vscode/settings.json
-Pipfile.lock
