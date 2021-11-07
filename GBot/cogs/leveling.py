@@ -26,6 +26,11 @@ class leveling(commands.Cog):
                     self.queue
                     )
                 )
+            guild = Guild(
+                self.bot.get_user(
+                    user_id
+                    ).guild.id
+                ).get()
             level = Level(
                 user_id
                 ).get()
@@ -33,8 +38,8 @@ class leveling(commands.Cog):
             return
         if level:
             num = random.randint(
-                level.level_width[0],
-                level.level_width[1]
+                guild.level_width[0],
+                guild.level_width[1]
                 )
             exp = level.exp + num
             Level(
@@ -42,7 +47,7 @@ class leveling(commands.Cog):
                 ).set(
                     exp=exp
                     )
-            if level.exp > level.level * level.level_exp:
+            if level.exp > level.level * guild.level_exp:
                 level = level.level + 1
                 Level(
                     user_id
