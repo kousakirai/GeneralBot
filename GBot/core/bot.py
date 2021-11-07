@@ -121,6 +121,6 @@ class GBot(commands.Bot):
         except KeyboardInterrupt:
             print("終了します")
             self.loop.run_until_complete(self.close())
-            DB.close()
+            DB.close(self)
         except Exception:
             traceback.print_exc()
