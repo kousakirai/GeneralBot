@@ -8,4 +8,8 @@ class Joke(commands.Cog):
 
 
 def setup(bot):
-    return bot.add_cog(Joke(bot))
+    return bot.add_cog(
+        Joke(
+            bot
+            )
+        )

@@ -8,4 +8,8 @@ class leveling(commands.Cog):
 
 
 def setup(bot):
-    return bot.add_cog(leveling(bot))
+    return bot.add_cog(
+        leveling(
+            bot
+            )
+        )

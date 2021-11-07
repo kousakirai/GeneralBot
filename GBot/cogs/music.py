@@ -43,15 +43,26 @@ class YTDLSource(discord.PCMVolumeTransformer):
     async def from_url(cls, url, *, loop=None, stream=False):
         dload = not stream
         loop = loop or asyncio.get_event_loop()
-        def lam(): return ytdl.extract_info(url, download=dload)
-        data = await loop.run_in_executor(None, lam)
+        def lam(): return ytdl.extract_info(
+            url,
+            download=dload
+            )
+        data = await loop.run_in_executor(
+            None,
+            lam
+            )
 
         if 'entries' in data:
             # take first item from a playlist
             data = data['entries'][0]
 
         fname = data['url'] if stream else ytdl.prepare_filename(data)
-        return cls(discord.FFmpegPCMAudio(fname, **ffmpeg_options), data=data)
+        return cls(
+            discord.FFmpegPCMAudio(
+                fname,**ffmpeg_options
+                ),
+            data=data
+            )
 
 
 class Voicemusic(commands.Cog):
@@ -61,15 +72,24 @@ class Voicemusic(commands.Cog):
     @commands.group()
     async def music(self, ctx):
         if ctx.invoked_subcommand is None:
-            await ctx.send("引数・コマンドが不正です。")
+            await ctx.send(
+                "引数・コマンドが不正です。"
+                )
 
     @music.command()
     async def play(self, ctx):
         member = ctx.author
         connect = member.voice.channel.connect
-        if isinstance(connect, discord.stageinstance):
+        if isinstance(
+            connect,
+            discord.stageinstance
+            ):
             return
 
 
 def setup(bot):
-    return bot.add_cog(Voicemusic(bot))
+    return bot.add_cog(
+        Voicemusic(
+            bot
+            )
+        )

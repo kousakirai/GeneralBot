@@ -1,5 +1,4 @@
 .lock
 .env
 .toml
-Pipfile
 .vscode/settings.json

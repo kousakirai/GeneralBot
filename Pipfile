@@ -1,0 +1,16 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+py-cord = {git = "https://github.com/Pycord-Development/pycord"}
+captcha = "*"
+jishaku = "*"
+mongoengine = "*"
+youtube-dl = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.8"

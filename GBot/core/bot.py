@@ -11,7 +11,7 @@ from discord.ext.commands.errors import (
     NotOwner
 )
 import traceback
-
+from GBot.db import DB
 
 class GBot(commands.Bot):
     def __init__(self, token):
@@ -64,24 +64,36 @@ class GBot(commands.Bot):
 
     async def on_command_error(self, ctx, error):
         guild = Guild(ctx.guild.id).get()
-        embed = discord.Embed(title="エラー", description=" ",
-                              color=discord.Color.red())
+        embed = discord.Embed(
+            title="エラー", description=" ",
+            color=discord.Color.red()
+            )
 
         if isinstance(error, CommandNotFound):
-            embed.add_field(name="コマンドが存在しません。",
-                            value=f"`{guild.prefix}help`を実行してコマンドリストを確認してください。"
-                            )
+            embed.add_field(
+                name="コマンドが存在しません。",
+                value=f"`{guild.prefix}help`を実行してコマンドリストを確認してください。"
+                )
 
         elif isinstance(error, MissingPermissions):
             embed.color = data["color"]["red"]
-            embed.add_field(name="権限エラー", value="実行者とBotの権限をお確かめください。")
+            embed.add_field(
+                name="権限エラー",
+                value="実行者とBotの権限をお確かめください。"
+                )
 
         elif isinstance(error, BadArgument):
             embed.color = data["color"]["purple"]
-            embed.add_field(name="引数エラー", value="引数が不正もしくは不足しています。")
+            embed.add_field(
+                name="引数エラー",
+                value="引数が不正もしくは不足しています。"
+                )
 
         elif isinstance(error, NotOwner):
-            embed.add_field(name="devコマンド", value="このコマンドは運営のみ使用可能です。")
+            embed.add_field(
+                name="devコマンド",
+                value="このコマンドは運営のみ使用可能です。"
+                )
 
         else:
             print(error)
@@ -101,11 +113,14 @@ class GBot(commands.Bot):
 
     def run(self):
         try:
-            self.loop.run_until_complete(self.start(self.token))
+            self.loop.run_until_complete(
+                self.start(self.token)
+                )
         except discord.LoginFailure:
             print("Discord Tokenが不正です")
         except KeyboardInterrupt:
             print("終了します")
             self.loop.run_until_complete(self.close())
+            DB.close()
         except Exception:
             traceback.print_exc()
