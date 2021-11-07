@@ -11,13 +11,14 @@ class leveling(commands.Cog):
         self.bot = bot
         self.queue = {}
         self.Lqueue.start()
+
     @commands.Cog.listener()
     async def on_message(self, message):
         self.queue[message.author.id] = message.channel.id
 
     @tasks.loop(seconds=5)
     async def Lqueue(self):
-        if len(self.queue) < 0:
+        if len(self.queue) == 0:
             return
         elif len(self.queue) > 0:
             user_id = next(
@@ -29,7 +30,7 @@ class leveling(commands.Cog):
                 user_id
                 ).get()
         else:
-            pass
+            return
         if level:
             num = random.randint(
                 level.level_wigth[0],
