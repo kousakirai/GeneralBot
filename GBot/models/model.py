@@ -2,7 +2,8 @@ from mongoengine import (
     Document,
     StringField,
     IntField,
-    BooleanField
+    BooleanField,
+    ListField
 )
 
 
@@ -33,6 +34,12 @@ class Guild(Document):
     level = BooleanField(
         default=True
         )
+    level_exp = ListField(IntField(
+        default=6
+    ))
+    level_width = IntField(
+        default=[1,5], max_length=2
+    )
     auth = BooleanField(
         default=False
         )
@@ -56,11 +63,3 @@ class Auth(Document):
         )
 
 
-class LevelQueue(Document):
-    user_id = IntField(
-        required=True,
-        primary_key=True
-        )
-    message_ch = IntField(
-        required=True
-        )
