@@ -47,7 +47,9 @@ class leveling(commands.Cog):
                     user_id
                     )
                 embed = discord.Embed(
-                    title="レベルアップ！"
+                    title="レベルアップ！",
+                    description=" ",
+                    colour=data["color"]["green"]
                     )
                 embed.add_field(
                     name=f"{user.name}さんのレベルが{level.level}に上がったよ！",
@@ -70,7 +72,8 @@ class leveling(commands.Cog):
         if level:
             embed = discord.Embed(
                 title=f"{ctx.author.name}さんの現在のレベル",
-                description=" "
+                description=" ",
+                colour=data["color"]["purple"]
             )
             embed.add_field(
                 name=f"レベル：**{level.level}",
