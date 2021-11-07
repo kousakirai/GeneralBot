@@ -33,8 +33,8 @@ class leveling(commands.Cog):
             return
         if level:
             num = random.randint(
-                level.level_wigth[0],
-                level.level_wigth[1]
+                level.level_width[0],
+                level.level_width[1]
                 )
             exp = level.exp + num
             Level(
