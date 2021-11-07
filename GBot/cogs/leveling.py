@@ -4,6 +4,7 @@ from GBot.models.level import Level
 import random
 import discord
 from GBot.models.guild import Guild
+from GBot.data import data
 
 class leveling(commands.Cog):
     def __init__(self, bot: GBot):
@@ -33,7 +34,7 @@ class leveling(commands.Cog):
             Level(
                 user_id
                 ).set(
-                    exp=num
+                    exp=+num
                     )
             if level.exp > level.level * level.level_exp:
                 Level(
