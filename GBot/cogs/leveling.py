@@ -31,16 +31,18 @@ class leveling(commands.Cog):
                 level.level_wigth[0],
                 level.level_wigth[1]
                 )
+            exp = level.exp + num
             Level(
                 user_id
                 ).set(
-                    exp=+num
+                    exp=exp
                     )
             if level.exp > level.level * level.level_exp:
+                level = level.level + 1
                 Level(
                     user_id
                     ).set(
-                        level=+1,
+                        level=level,
                         exp=0
                         )
                 user = self.bot.get_user(
