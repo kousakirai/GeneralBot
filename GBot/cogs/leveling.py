@@ -6,6 +6,7 @@ import discord
 from GBot.models.guild import Guild
 from GBot.data import data
 
+
 class leveling(commands.Cog):
     def __init__(self, bot: GBot):
         self.bot = bot
@@ -20,50 +21,47 @@ class leveling(commands.Cog):
     async def Lqueue(self):
         if len(self.queue) == 0:
             return
-        elif len(self.queue) > 0:
-            user_id = next(
-                iter(
-                    self.queue
-                    )
-                )
-            print(user_id)
-            guild = Guild(
-                self.bot.get_user(
-                    user_id
-                    ).guild.id
-                ).get()
-            level = Level(
+        user_id = next(
+            iter(
+                self.queue
+            )
+        )
+        print(user_id)
+        guild = Guild(
+            self.bot.get_user(
                 user_id
-                ).get()
-        else:
-            return
+            ).guild.id
+        ).get()
+        level = Level(
+            user_id
+        ).get()
         if level:
             num = random.randint(
                 guild.level_width[0],
                 guild.level_width[1]
-                )
+            )
             exp = level.exp + num
             Level(
                 user_id
-                ).set(
-                    exp=exp
-                    )
+            ).set(
+                exp=exp
+            )
             if level.exp > level.level * guild.level_exp:
                 level = level.level + 1
                 Level(
                     user_id
-                    ).set(
-                        level=level,
-                        exp=0
-                        )
+                ).set(
+                    level=level,
+                    exp=0
+                )
                 user = self.bot.get_user(
                     user_id
-                    )
+                )
                 embed = discord.Embed(
                     title="レベルアップ！",
                     description=" ",
                     colour=data["color"]["green"]
-                    )
+                )
                 embed.add_field(
                     name=f"{user.name}さんのレベルが{level.level}に上がったよ！",
                     value=f"次のレベルアップに必要な経験値：{level.level*6}"
@@ -106,6 +104,7 @@ class leveling(commands.Cog):
                 value=f"次のレベルアップまでに必要な経験値：{level.level*6 - level.exp}"
             )
             await ctx.reply(embed=embed)
+
     @level.command(alias=["at"])
     async def Activite(self, ctx):
         guild = Guild(ctx.guild.id).get()
@@ -120,38 +119,39 @@ class leveling(commands.Cog):
                 \n経験値の上限倍率：現在のレベル×6
                 \n経験値上昇の間隔：1～5
                 """
-                )
+            )
 
     @level.command()
     async def exp_set(self, ctx, exp):
-        guild=Guild(
+        guild = Guild(
             ctx.guild.id
-            ).get()
+        ).get()
 
         Guild(
             ctx.guild.id
-            ).set(
-                Level_exp=exp
-                )
+        ).set(
+            Level_exp=exp
+        )
         await ctx.reply(f"倍率を{guild.level_exp}から{exp}に変更しました。")
 
     @level.command()
     async def width_set(self, ctx, width):
         guild = Guild(
             ctx.guild.id
-            ).get()
+        ).get()
 
         Guild(
             ctx.guild.id
-            ).set(
-                level_width=width
-                )
+        ).set(
+            level_width=width
+        )
 
         await ctx.reply(f"経験値の範囲を{guild.level_width}から{width}に変更しました。")
+
 
 def setup(bot):
     return bot.add_cog(
         leveling(
             bot
-            )
         )
+    )

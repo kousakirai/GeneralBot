@@ -12,8 +12,10 @@ youtube-dl = "*"
 pymongo = {extras = ["srv"], version = "*"}
 aiofiles = "*"
 psutil = "*"
+autopep8 = "*"
 
 [dev-packages]
+autopep8 = "*"
 
 [requires]
 python_version = "3.8"
