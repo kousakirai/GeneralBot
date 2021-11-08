@@ -26,6 +26,7 @@ class leveling(commands.Cog):
                     self.queue
                     )
                 )
+            print(user_id)
             guild = Guild(
                 self.bot.get_user(
                     user_id

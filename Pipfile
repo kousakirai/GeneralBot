@@ -9,6 +9,9 @@ captcha = "*"
 jishaku = "*"
 mongoengine = "*"
 youtube-dl = "*"
+pymongo = {extras = ["srv"], version = "*"}
+aiofiles = "*"
+psutil = "*"
 
 [dev-packages]
 
