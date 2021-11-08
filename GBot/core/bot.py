@@ -16,7 +16,7 @@ from GBot.db import DB
 class GBot(commands.Bot):
     def __init__(self, token):
         self.token = token
-        super().__init__(command_prefix=None, help_command=Help())
+        super().__init__(command_prefix="gc!", help_command=Help())
 
     async def is_owner(self, user: discord.User):
         if user.id in data["team_id"]:
