@@ -1,18 +1,16 @@
 # RT Ext - Debug
 
-from discord.ext import commands
+from discord.ext import commands,tasks
 import discord
 
 from jishaku.functools import executor_function
-from functools import wraps
 import psutil
 from GBot.core.bot import GBot
-import sys
-import os
 
 
-class Debug(commands.Cog):
-
+class monitor(commands.Cog):
+    def __init__(self, bot: GBot):
+        self.bot = bot
     @executor_function
     def make_monitor_embed(self):
         embed = discord.Embed(
@@ -28,7 +26,7 @@ class Debug(commands.Cog):
             name="CPU",
             value=f"{psutil.cpu_percent(interval=1)}%"
         )
-        a(
+        embed.add_field(
             name="Disk",
             value=f"{psutil.disk_usage('/').percent}%"
         )
@@ -38,10 +36,9 @@ class Debug(commands.Cog):
     async def monitor(self):
         await self.make_monitor_embed()
 
-
-#def setup(bot):
-#    bot.add_cog(
-#        Debug(
-#            bot
-#            )
-#        )
+def setup(bot):
+    bot.add_cog(
+        monitor(
+            bot
+            )
+        )
