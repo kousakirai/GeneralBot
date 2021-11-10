@@ -61,7 +61,6 @@ class GBot(commands.Bot):
             return guild.prefix
 
     async def on_guild_join(self, guild: discord.Guild):
-        print(guild.id)
         guild = Guild.create(guild_id=guild.id)
         guild = guild.get()
         print("サーバー:", guild.name)
