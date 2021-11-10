@@ -32,7 +32,7 @@ class monitor(commands.Cog):
         )
         return embed
 
-    @tasks.loop(minute=1)
+    @tasks.loop(minutes=1)
     async def monitor(self):
         await self.make_monitor_embed()
 
