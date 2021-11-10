@@ -7,23 +7,23 @@ from GBot.models.guild import Guild
 from GBot.data import data
 
 
+queue = {}
 class leveling(commands.Cog):
     def __init__(self, bot: GBot):
         self.bot = bot
-        self.queue = {}
         self.Lqueue.start()
 
     @commands.Cog.listener()
     async def on_message(self, message):
-        self.queue[message.author.id] = message.channel.id
+        queue[message.author.id] = message.channel.id
 
     @tasks.loop(seconds=5)
     async def Lqueue(self):
-        if len(self.queue) == 0:
+        if queue:
             return
         user_id = next(
             iter(
-                self.queue
+                queue
             )
         )
         print(user_id)
@@ -66,7 +66,7 @@ class leveling(commands.Cog):
                     name=f"{user.name}さんのレベルが{level.level}に上がったよ！",
                     value=f"次のレベルアップに必要な経験値：{level.level*6}"
                 )
-                channel = self.bot.get_channel(self.queue[user_id])
+                channel = self.bot.get_channel(queue[user_id])
                 await channel.send(embed=embed)
             else:
                 return
