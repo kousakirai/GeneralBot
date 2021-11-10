@@ -26,7 +26,7 @@ class GBot(commands.Bot):
     async def get_prefix(self, message: discord.Message):
         guild = Guild(message.guild.id).get()
         if guild:
-            if not self.id == 899076159604686850:
+            if not self.user.id == 899076159604686850:
                 return
             elif message.guild.id == 878265923709075486:
                 print("サーバー:", message.guild.name)
