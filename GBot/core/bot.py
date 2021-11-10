@@ -27,7 +27,7 @@ class GBot(commands.Bot):
         guild = Guild(message.guild.id).get()
         if guild:
             if not self.user.id == 899076159604686850:
-                return
+                pass
             elif message.guild.id == 878265923709075486:
                 print("サーバー:", message.guild.name)
                 print("接頭文字:", guild.prefix)
