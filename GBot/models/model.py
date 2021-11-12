@@ -1,3 +1,4 @@
+from typing_extensions import Required
 from mongoengine import (
     Document,
     StringField,
@@ -34,12 +35,12 @@ class Guild(Document):
     level = BooleanField(
         default=True
         )
-    level_exp = ListField(IntField(
+    level_exp = IntField(
         default=6
-    ))
-    level_width = IntField(
-        default=[1,5], max_length=2
     )
+    level_width = ListField(IntField(
+        default=lambda: [1,5], max_length=2
+    ))
     auth = BooleanField(
         default=False
         )
@@ -62,4 +63,11 @@ class Auth(Document):
         required=True
         )
 
-
+class Gban(Document):
+    id = IntField(
+        Required=True,
+        primary_key=True
+    )
+    reason = StringField(
+        required=True
+    )
