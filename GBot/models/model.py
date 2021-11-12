@@ -65,7 +65,7 @@ class Auth(Document):
 
 class Gban(Document):
     id = IntField(
-        Required=True,
+        required=True,
         primary_key=True
     )
     reason = StringField(
