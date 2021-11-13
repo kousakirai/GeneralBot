@@ -8,6 +8,7 @@ from aiofiles import open as async_open, os
 from functools import wraps
 import psutil
 from GBot.core.bot import GBot
+from GBot.models.guild import Guild
 import sys
 import os
 
@@ -66,6 +67,14 @@ class Debug(commands.Cog):
             python,
             *sys.argv
             )
+
+    @debug.command(name="db_rege")
+    async def Guild_regenerate(self, ctx):
+        Guild.delete_all()
+        for guild in self.bot.guilds:
+            print(guild.name)
+            Guild.create(id=guild.id)
+        await ctx.send("すべてのGuildを再生成しました。")
 
     @debug.command(aliases=["exec", "run"])
     @commands.is_owner()
