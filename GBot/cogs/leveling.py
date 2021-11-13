@@ -28,7 +28,7 @@ class leveling(commands.Cog):
         )
         print(user_id)
         guild = Guild(
-            self.bot.fetch_user(
+            await self.bot.fetch_user(
                 user_id
             ).guild.id
         ).get()
