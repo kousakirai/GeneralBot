@@ -73,7 +73,7 @@ class Debug(commands.Cog):
         Guild.delete_all()
         for guild in self.bot.guilds:
             print(guild.name)
-            Guild.create(id=guild.id)
+            Guild.create(guild_id=guild.id)
         await ctx.send("すべてのGuildを再生成しました。")
 
     @debug.command(aliases=["exec", "run"])
