@@ -41,6 +41,7 @@ class leveling(commands.Cog):
         level = Level(
             user_id
         ).get()
+        print(guild.level_width)
         if level:
             num = random.randint(
                 guild.level_width
