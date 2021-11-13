@@ -60,9 +60,8 @@ class leveling(commands.Cog):
                     level=level,
                     exp=0
                 )
-                user = self.bot.get_user(
-                    user_id
-                )
+                guild = self.bot.get_guild(LQE.guild_id)
+                user = guild.get_member(user_id)
                 embed = discord.Embed(
                     title="レベルアップ！",
                     description=" ",
@@ -72,7 +71,7 @@ class leveling(commands.Cog):
                     name=f"{user.name}さんのレベルが{level.level}に上がったよ！",
                     value=f"次のレベルアップに必要な経験値：{level.level*6}"
                 )
-                channel = self.bot.get_channel(LQE.message_id)
+                channel = self.bot.get_channel(LQE.channel_id)
                 await channel.send(embed=embed)
                 self.queue.pop(0)
             else:
