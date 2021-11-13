@@ -43,7 +43,7 @@ class leveling(commands.Cog):
         ).get()
         if level:
             num = random.randint(
-                guild.level_width]
+                guild.level_width
             )
             exp = level.exp + num
             Level(
