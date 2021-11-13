@@ -6,26 +6,33 @@ import discord
 from GBot.models.guild import Guild
 from GBot.data import data
 
-queue = {}
+from dataclasses import dataclass
+
+
+@dataclass
+class LevelQueueEntry:
+    user_id: int
+    channel_id: int
+
 class leveling(commands.Cog):
     def __init__(self, bot: GBot):
         self.bot = bot
         self.Lqueue.start()
+        self.queue = []
 
     @commands.Cog.listener()
     async def on_message(self, message):
         await self.bot.wait_until_ready()
-        queue[message.author.id] = message.channel.id
+        user_id = message.author.id
+        channel_id = message.channel.id
+        self.queue.append(LevelQueueEntry(user_id, channel_id))
 
     @tasks.loop(seconds=5)
     async def Lqueue(self):
-        if len(queue) == 0:
+        print(self.queue)
+        if len(self.queue) == 0:
             return
-        user_id = next(
-            iter(
-                queue
-            )
-        )
+        user_id = self.queue.user_id
         user = self.bot.get_user(user_id)
         print(user_id)
         guild = Guild(user.guild.id).get()
@@ -63,7 +70,7 @@ class leveling(commands.Cog):
                     name=f"{user.name}さんのレベルが{level.level}に上がったよ！",
                     value=f"次のレベルアップに必要な経験値：{level.level*6}"
                 )
-                channel = self.bot.get_channel(queue[user_id])
+                channel = self.bot.get_channel(self.queue[user_id])
                 await channel.send(embed=embed)
             else:
                 return
@@ -76,7 +83,7 @@ class leveling(commands.Cog):
         await self.bot.wait_until_ready()
 
     def cog_unload(self):
-        self.Lqueue.cancel()
+        self.Lself.queue.cancel()
 
     @commands.group()
     async def level(self, ctx):
