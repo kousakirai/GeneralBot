@@ -47,7 +47,6 @@ class GBot(commands.Bot):
         else:
             guild = Guild.create(guild_id=message.guild.id)
             print(guild)
-            guild = guild.get()
             if guild.level is None:
                 print("サーバー:", message.guild.name)
                 print("接頭文字:", guild.prefix)

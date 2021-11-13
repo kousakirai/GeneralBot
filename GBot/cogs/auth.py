@@ -26,16 +26,12 @@ class Authsys(commands.Cog):
             )
         image = ImageCaptcha()
         data = image.generate(password)
-        image.write(
-            password,
-            'out.png'
-            )
         Auth.create(
             id=member.id,
             password=password
             )
         file = discord.File(
-            "GBot/cogs/I/Image/out.png",
+            data,
             filename="pass.png"
             )
         channel = self.get_channel(guild.authch)
