@@ -29,7 +29,7 @@ class leveling(commands.Cog):
         guild_id = message.guild.id
         self.queue.append(LevelQueueEntry(user_id, channel_id, guild_id))
 
-    @tasks.loop(seconds=5)
+    @tasks.loop(seconds=3)
     async def Lqueue(self):
         print(self.queue)
         if len(self.queue) == 0:
@@ -60,8 +60,7 @@ class leveling(commands.Cog):
                     level=level,
                     exp=0
                 )
-                guild = self.bot.get_guild(LQE.guild_id)
-                user = guild.get_member(user_id)
+                user = self.bot.get_user(user_id)
                 embed = discord.Embed(
                     title="レベルアップ！",
                     description=" ",
@@ -73,13 +72,9 @@ class leveling(commands.Cog):
                 )
                 channel = self.bot.get_channel(LQE.channel_id)
                 await channel.send(embed=embed)
-                self.queue.pop(0)
-            else:
-                self.queue.pop(0)
-                return
-        else:
-            self.queue.pop(0)
-            return
+
+        self.queue.pop(0)
+        return
 
     @Lqueue.before_loop
     async def before_printer(self):
