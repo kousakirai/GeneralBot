@@ -38,7 +38,7 @@ class Guild(Document):
         default=6
     )
     level_width = ListField(IntField(
-        default=[1,5], max_length=2
+        default=[1,5], required=True
     ))
     auth = BooleanField(
         default=False
