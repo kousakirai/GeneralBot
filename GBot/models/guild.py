@@ -33,11 +33,11 @@ class Guild:
         rest.save()
         return rest
 
-    @staticmethod
+    @classmethod
     def get_all(cls):
         return modelname.objects.all()
 
-    @staticmethod
+    @classmethod
     def delete_all(cls):
         for guild in modelname.objects.all():
             guild.delete()
