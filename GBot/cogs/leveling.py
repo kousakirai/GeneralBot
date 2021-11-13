@@ -15,6 +15,7 @@ class LevelQueueEntry:
     channel_id: int
     guild_id: int
 
+
 class leveling(commands.Cog):
     def __init__(self, bot: GBot):
         self.bot = bot
@@ -67,7 +68,7 @@ class leveling(commands.Cog):
                     colour=data["color"]["green"]
                 )
                 embed.add_field(
-                    name=f"{user.name}さんのレベルが{level.level}に上がったよ！",
+                    name=f"レベルが{level.level}に上がったよ！",
                     value=f"次のレベルアップに必要な経験値：{level.level*6}"
                 )
                 channel = self.bot.get_channel(LQE.channel_id)
@@ -150,6 +151,7 @@ class leveling(commands.Cog):
         )
 
         await ctx.reply(f"経験値の範囲を{guild.level_width}から{width}に変更しました。")
+
 
 def setup(bot):
     return bot.add_cog(
