@@ -13,6 +13,7 @@ from dataclasses import dataclass
 class LevelQueueEntry:
     user_id: int
     channel_id: int
+    guild_id: int
 
 class leveling(commands.Cog):
     def __init__(self, bot: GBot):
@@ -25,7 +26,8 @@ class leveling(commands.Cog):
         await self.bot.wait_until_ready()
         user_id = message.author.id
         channel_id = message.channel.id
-        self.queue.append(LevelQueueEntry(user_id, channel_id))
+        guild_id = message.guild.id
+        self.queue.append(LevelQueueEntry(user_id, channel_id, guild_id))
 
     @tasks.loop(seconds=5)
     async def Lqueue(self):
@@ -34,9 +36,8 @@ class leveling(commands.Cog):
             return
         LQE = self.queue[0]
         user_id = LQE.user_id
-        user = self.bot.get_user(user_id)
         print(user_id)
-        guild = Guild(user.guild.id).get()
+        guild = Guild(LQE.guild_id).get()
         level = Level(
             user_id
         ).get()
