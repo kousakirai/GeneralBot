@@ -41,13 +41,10 @@ class leveling(commands.Cog):
         level = Level(
             user_id
         ).get()
-        if len(guild.level_width) == 0:
-            Guild(LQE.guild_id).set(level_width=[1,5])
-        print(guild.level_width)
         if level:
             num = random.randint(
-                guild.level_width[0],
-                guild.level_width[1]
+                1,
+                5
             )
             exp = level.exp + num
             Level(
