@@ -75,9 +75,12 @@ class leveling(commands.Cog):
                 )
                 channel = self.bot.get_channel(LQE.message_id)
                 await channel.send(embed=embed)
+                self.queue.pop(0)
             else:
+                self.queue.pop(0)
                 return
         else:
+            self.queue.pop(0)
             return
 
     @Lqueue.before_loop
