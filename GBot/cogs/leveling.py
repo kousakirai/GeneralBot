@@ -32,7 +32,8 @@ class leveling(commands.Cog):
         print(self.queue)
         if len(self.queue) == 0:
             return
-        user_id = LevelQueueEntry.user_id
+        LQE = self.queue[0]
+        user_id = LQE.user_id
         user = self.bot.get_user(user_id)
         print(user_id)
         guild = Guild(user.guild.id).get()
@@ -70,7 +71,7 @@ class leveling(commands.Cog):
                     name=f"{user.name}さんのレベルが{level.level}に上がったよ！",
                     value=f"次のレベルアップに必要な経験値：{level.level*6}"
                 )
-                channel = self.bot.get_channel(LevelQueueEntry.message_id)
+                channel = self.bot.get_channel(LQE.message_id)
                 await channel.send(embed=embed)
             else:
                 return
