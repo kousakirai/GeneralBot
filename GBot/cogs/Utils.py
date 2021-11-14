@@ -49,18 +49,32 @@ class Utils(commands.Cog):
 
     @prefix.error
     async def on_prefix_error(self, ctx: commands.Context, error):
-        if isinstance(error, MissingPermissions):
-            return await ctx.send('管理者のみが実行可能です')
-        if isinstance(error, MissingRequiredArgument):
-            return await ctx.send('引数は新しいPrefixを8文字以内で渡してください')
+        if isinstance(
+            error,
+            MissingPermissions
+            ):
+            return await ctx.send(
+                '管理者のみが実行可能です'
+                )
+        if isinstance(
+            error,
+            MissingRequiredArgument
+            ):
+
+            return await ctx.send(
+                '引数は新しいPrefixを8文字以内で渡してください'
+                )
         raise error
 
     @commands.command()
     async def about(self, ctx):
         url = "[こちら](https://stats.uptimerobot.com/rVZNriABK4)"
         message = "\nご一報いただけるとすぐさま対応いたします。"
-        embed = discord.Embed(title="Botの概要", description=" ",
-                              colour=discord.Colour.blue())
+        embed = discord.Embed(
+            title="Botの概要", description=" ",
+            colour=discord.Colour.blue()
+            )
+
         embed.add_field(
             name="前置き",
             value="このBotは個人が制作しています。\nバグなども多数ありますが発見した際には下のサポートサーバーで"+message
@@ -68,21 +82,30 @@ class Utils(commands.Cog):
 
         embed.add_field(
             name="Bot稼働状態",
-            value=url+"のサイトからBotの稼働状態が確認できます。\n緑のランプが付いているときは正常です。")
+            value=url+"のサイトからBotの稼働状態が確認できます。\n緑のランプが付いているときは正常です。"
+            )
 
         embed.add_field(
             name="サポートサーバー",
             value="[こちら](https://discord.gg/feudwTMnEd)",
             inline=False
         )
-        await ctx.send(embed=embed)
+        await ctx.send(
+            embed=embed
+            )
 
     # 発言時に実行されるイベントハンドラを定義
     @commands.Cog.listener()
     async def on_message(self, message):
         if self.bot.user in message.mentions:  # 話しかけられたかの判定
-            await reply(message)  # 返信する非同期関数を実行
+            await reply(
+                message
+                )  # 返信する非同期関数を実行
 
 
 def setup(bot):
-    return bot.add_cog(Utils(bot))
+    return bot.add_cog(
+        Utils(
+            bot
+            )
+        )

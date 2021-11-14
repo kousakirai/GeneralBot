@@ -16,6 +16,7 @@ class LevelQueueEntry:
     guild_id: int
 
 
+queue = {}
 class leveling(commands.Cog):
     def __init__(self, bot: GBot):
         self.bot = bot

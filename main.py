@@ -4,5 +4,5 @@ from GBot.db import DB
 
 DB.engine()
 GBot(
-    os.getenv("CANARYBOT_TOKEN")
+    os.getenv("BOT_TOKEN")
     ).run()

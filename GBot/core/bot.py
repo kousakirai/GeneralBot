@@ -26,24 +26,24 @@ class GBot(commands.Bot):
     async def get_prefix(self, message: discord.Message):
         guild = Guild(message.guild.id).get()
         if guild:
-            if message.guild.id == 878265923709075486:
+            if self.user.id == 899076159604686850:
                 print("サーバー:", message.guild.name)
                 print("接頭文字:", guild.prefix)
                 print("認証：", str(guild.auth))
                 print("レベル", str(guild.level))
                 return "gc!"
-            if guild.auth is None:
+            elif guild.auth is None:
                 print("サーバー:", message.guild.name)
                 print("接頭文字:", guild.prefix)
                 print("認証：", str(guild.auth))
                 print("レベル", str(guild.level))
                 return guild.prefix
-            print("サーバー:", message.guild.name)
-            print("接頭文字:", guild.prefix)
-            print("認証：", str(guild.auth))
-            print("レベル", str(guild.level))
-            return guild.prefix
-
+            else:
+                print("サーバー:", message.guild.name)
+                print("接頭文字:", guild.prefix)
+                print("認証：", str(guild.auth))
+                print("レベル", str(guild.level))
+                return guild.prefix
         else:
             guild = Guild.create(guild_id=message.guild.id)
             print(guild)
