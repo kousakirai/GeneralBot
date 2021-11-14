@@ -54,14 +54,13 @@ class leveling(commands.Cog):
                 exp=exp
             )
             if level.exp > level.level * guild.level_exp:
-                level = level.level + 1
+                now_level = level.level + 1
                 Level(
                     user_id
                 ).set(
-                    level=level,
+                    level=now_level,
                     exp=0
                 )
-                user = self.bot.get_user(user_id)
                 embed = discord.Embed(
                     title="レベルアップ！",
                     description=" ",
@@ -137,6 +136,12 @@ class leveling(commands.Cog):
             Level_exp=exp
         )
         await ctx.reply(f"倍率を{guild.level_exp}から{exp}に変更しました。")
+
+    @commands.is_owner()
+    @level.command()
+    async def reset_all(self, ctx):
+        Guild.delete_all()
+        await ctx.reply("ok")
 
     @level.command()
     async def width_set(self, ctx, width):

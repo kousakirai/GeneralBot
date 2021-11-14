@@ -32,3 +32,8 @@ class Level:
             )
         rest.save()
         return rest
+
+    @classmethod
+    def delete_all(cls):
+        for guild in modelname.objects.all():
+            guild.delete()
