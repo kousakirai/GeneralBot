@@ -34,12 +34,13 @@ class Gban(commands.Cog):
             return
 
     @gban.command()
-    async def add(self, ctx, user:discord.user, reason):
-        await self.list_add(ctx, user, reason)
+    async def add(self, ctx, Member:discord.Member, reason):
+        await self.list_add(ctx, Member, reason)
 
+    @commands.is_owner()
     @gban.command()
-    async def delete(self, ctx, user: discord.user):
-        await self.list_del(ctx, user)
+    async def delete(self, ctx, member: discord.Member):
+        await self.list_del(ctx, member)
 
     @commands.is_owner()
     @gban.command()
@@ -50,5 +51,9 @@ class Gban(commands.Cog):
             embed.add_field(name=f"対象者{us.name}", value=f"理由：{user.reason}")
         await ctx.send(embed=embed)
 
+    @commands.is_owner()
+    @gban.command()
+    async def run(self, ctx):
+        pass
 def setup(bot):
     return bot.add_cog(Gban(bot))
