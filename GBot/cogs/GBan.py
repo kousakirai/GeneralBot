@@ -7,22 +7,22 @@ class Gban(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    async def list_add(self, ctx, user: discord.user, reason):
-        gban = Gban(user.id).get()
+    async def list_add(self, ctx, member: discord.member, reason):
+        gban = Gban(member.id).get()
         embed = discord.Embed(title="Gban管理システム", description=" ")
         if gban:
             embed.add_field(name="すでに登録済みです。", value="別のユーザーを指定してください。")
         else:
-            reason = f"[Gban執行]{user.name}理由：{reason}"
-            Gban.create(id=user.id, reason=reason)
+            reason = f"[Gban執行]{member.name}理由：{reason}"
+            Gban.create(id=member.id, reason=reason)
             embed.add_field(name="登録しました。", value="運営が承認するまでしばらくお待ち下さい。")
         return await ctx.send(embed=embed)
 
-    async def list_del(self, ctx, user: discord.user):
-        gban = Gban(user.id).get()
+    async def list_del(self, ctx, member: discord.member):
+        gban = Gban(member.id).get()
         embed = discord.Embed(title="Gban管理システム", description=" ")
         if gban:
-            Gban(user.id).delete()
+            Gban(member.id).delete()
             embed.add_field(name="承認リストから削除しました。", value="再申請する場合は申請し直してください。")
         else:
             embed.add_field(name="登録されていません。", value="申請はg!gban addからできます。")
