@@ -3,7 +3,7 @@ from GBot.models import model
 modelname = model.Gban
 
 
-class Gban:
+class GBan:
     def __init__(self, user_id):
         self.user_id = user_id
 
