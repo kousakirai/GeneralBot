@@ -61,7 +61,8 @@ class Debug(commands.Cog):
         await ctx.reply(
             "再起動します。"
             )
-        await self.bot.change_presence(name="reboot...",type=discord.ActivityType.custom)
+        activity = discord.activity(name="reboot...",type=discord.ActivityType.custom)
+        await self.bot.change_presence(Activity=activity)
         python = sys.executable
         os.execl(
             python,
