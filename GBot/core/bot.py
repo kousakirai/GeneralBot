@@ -128,7 +128,7 @@ class GBot(commands.Bot):
 
     async def on_ready(self):
         activity = discord.Activity(name="waiting...", type=discord.ActivityType.custom)
-        await self.change_presence(Activity=activity)
+        await self.change_presence(activity=activity)
         self.load_extension("jishaku")
         for filename in os.listdir("GBot/cogs"):
             if not filename.startswith("_") and filename.endswith(".py"):
