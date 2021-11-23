@@ -31,11 +31,10 @@ class GBot(commands.Bot):
             help_command=Help(),
             intents=intents
             )
-        mongo_db = DB.start()
         # スラッシュコマンドオブジェクトのインスタンス
         slash = SlashCommand(self, sync_commands = True, override_type = True)
         guild_ids = [878265923709075486]
-
+    mongo_db = DB.start()
     async def is_owner(self, user: discord.User):
         if user.id in data["team_id"]:
             return True
