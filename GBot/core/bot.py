@@ -139,7 +139,7 @@ class GBot(commands.Bot):
         LOG.info('bot ready.')
         activity = discord.Activity(name = '現在稼働中', type = discord.ActivityType.watching)
         await self.change_presence(activity=activity)
-        BOT_USER_ID = GBot.user.id
+        BOT_USER_ID = 878264570370748416
         DISCORD_TOKEN = self.token
         GUILD_ID = 878265923709075486
         cmds = await manage_commands.get_all_commands(BOT_USER_ID, DISCORD_TOKEN, GUILD_ID)
