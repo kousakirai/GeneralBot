@@ -10,7 +10,7 @@ class Joke(commands.Cog):
         self.bot = bot
         LOG.info('constructor end')
 
-    guild_ids = GBot.guild_ids
+    guild_ids = [878265923709075486]
     test_options = [
         manage_commands.create_option(
             name = 'num',
