@@ -156,6 +156,6 @@ class GBot(commands.Bot):
         except KeyboardInterrupt:
             LOG.info("終了します")
             self.loop.run_until_complete(self.close())
-            DB.close(mongo_db)
+            DB.close(self.mongo_db)
         except Exception:
             traceback.print_exc()
