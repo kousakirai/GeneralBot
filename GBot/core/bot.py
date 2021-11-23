@@ -10,13 +10,31 @@ from discord.ext.commands.errors import (
     BadArgument,
     NotOwner
 )
+from discord_slash import SlashCommand
+from discord_slash.utils import manage_commands
+from logging import getLogger
+
 import traceback
 from GBot.db import DB
+intents = discord.Intents.all()
+intents.typing = False
+intents.voice_states = False
+intents.presences = False
+LOG = getLogger(__name__)
+
 
 class GBot(commands.Bot):
     def __init__(self, token):
         self.token = token
-        super().__init__(command_prefix=None, help_command=Help())
+        super().__init__(
+            command_prefix=None,
+            help_command=Help(),
+            intents=intents
+            )
+        mongo_db = DB.start()
+        # スラッシュコマンドオブジェクトのインスタンス
+        slash = SlashCommand(self, sync_commands = True, override_type = True)
+        guild_ids = [878265923709075486]
 
     async def is_owner(self, user: discord.User):
         if user.id in data["team_id"]:
@@ -110,11 +128,23 @@ class GBot(commands.Bot):
         return await ctx.send(embed=embed)
 
     async def on_ready(self):
+        await self.bot.change_presence(name="waiting...", type=discord.ActivityType.custom)
+        self.load_extension("jishaku")
         for filename in os.listdir("GBot/cogs"):
             if not filename.startswith("_") and filename.endswith(".py"):
                 self.load_extension(f"GBot.cogs.{filename[:-3]}")
-                print(f"{filename[:-3]}をロード")
-        self.load_extension("jishaku")
+                LOG.info(f"{filename[:-3]}をロード")
+        LOG.info('We have logged in as {0.user}'.format(self))
+        LOG.info(f'### guilds ### \n{self.guilds}')
+        LOG.info('bot ready.')
+        activity = discord.Activity(name = '現在稼働中', type = discord.ActivityType.watching)
+        await self.change_presence(activity=activity)
+        BOT_USER_ID = GBot.user.id
+        DISCORD_TOKEN = self.token
+        GUILD_ID = 878265923709075486
+        cmds = await manage_commands.get_all_commands(BOT_USER_ID, DISCORD_TOKEN, GUILD_ID)
+        for cmd in cmds:
+            LOG.info(cmd)
 
     def run(self):
         try:
@@ -122,9 +152,10 @@ class GBot(commands.Bot):
                 self.start(self.token)
                 )
         except discord.LoginFailure:
-            print("Discord Tokenが不正です")
+            LOG.info("Discord Tokenが不正です")
         except KeyboardInterrupt:
-            print("終了します")
+            LOG.info("終了します")
             self.loop.run_until_complete(self.close())
+            DB.close(mongo_db)
         except Exception:
             traceback.print_exc()

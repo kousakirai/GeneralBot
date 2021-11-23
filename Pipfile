@@ -13,6 +13,7 @@ pymongo = {extras = ["srv"], version = "*"}
 aiofiles = "*"
 psutil = "*"
 autopep8 = "*"
+discord-py-slash-command = "*"
 
 [dev-packages]
 autopep8 = "*"

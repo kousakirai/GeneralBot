@@ -3,7 +3,7 @@ from mongoengine import connect
 
 
 class DB:
-    def engine():
+    def start():
         host = 'mongodb+srv://cluster0.bmq8t.mongodb.net/discord'
         print("Mongoengine起動")
         engine = connect(
@@ -16,6 +16,6 @@ class DB:
 
         return engine
 
-    def close(self, *args, **kwargs):
-        self.engine.close()
+    def close(self):
+        self.start.close()
         print("Mongoengine終了")
