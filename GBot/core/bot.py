@@ -1,21 +1,22 @@
+import os
+import traceback
+from logging import getLogger
+
 import discord
 from discord.ext import commands
-import os
-from GBot.function.help import Help
-from GBot.models.guild import Guild
-from GBot.data import data
 from discord.ext.commands.errors import (
+    BadArgument,
     CommandNotFound,
     MissingPermissions,
-    BadArgument,
     NotOwner
 )
 from discord_slash import SlashCommand
 from discord_slash.utils import manage_commands
-from logging import getLogger
-
-import traceback
+from GBot.data import data
 from GBot.db import DB
+from GBot.function.help import Help
+from GBot.models.guild import Guild
+
 intents = discord.Intents.all()
 intents.typing = False
 intents.voice_states = False
@@ -30,11 +31,16 @@ class GBot(commands.Bot):
             command_prefix=None,
             help_command=Help(),
             intents=intents
-            )
+        )
         # スラッシュコマンドオブジェクトのインスタンス
-        slash = SlashCommand(self, sync_commands = True, override_type = True)
-        guild_ids = [878265923709075486]
+        self.slash = SlashCommand(
+            self,
+            sync_commands=True,
+            override_type=True
+        )
+        self.guild_ids = [878265923709075486]
     mongo_db = DB.start()
+
     async def is_owner(self, user: discord.User):
         if user.id in data["team_id"]:
             return True
@@ -89,45 +95,51 @@ class GBot(commands.Bot):
         embed = discord.Embed(
             title="エラー", description=" ",
             color=discord.Color.red()
-            )
+        )
 
         if isinstance(error, CommandNotFound):
             embed.add_field(
                 name="コマンドが存在しません。",
                 value=f"`{guild.prefix}help`を実行してコマンドリストを確認してください。"
-                )
+            )
 
         elif isinstance(error, MissingPermissions):
             embed.color = data["color"]["red"]
             embed.add_field(
                 name="権限エラー",
                 value="実行者とBotの権限をお確かめください。"
-                )
+            )
 
         elif isinstance(error, BadArgument):
             embed.color = data["color"]["purple"]
             embed.add_field(
                 name="引数エラー",
                 value="引数が不正もしくは不足しています。"
-                )
+            )
 
         elif isinstance(error, NotOwner):
             embed.add_field(
                 name="devコマンド",
                 value="このコマンドは運営のみ使用可能です。"
-                )
+            )
 
         else:
-            print(error)
-            channel = self.get_channel(data["devch"])
+            tb = list(
+                traceback.TracebackException.from_exception(
+                    error
+                ).format(
+                )
+            )
+            print(tb)
             embed.title = "未知のエラー"
             embed.description = " "
-            embed.add_field(name=error, value="エラーを修正してください。")
-            await channel.send(embed=embed)
+            embed.add_field(name=tb, value="エラーを修正してください。")
         return await ctx.send(embed=embed)
 
     async def on_ready(self):
-        activity = discord.Activity(name="waiting...", type=discord.ActivityType.custom)
+        activity = discord.Activity(name="waiting...",
+                                    type=discord.ActivityType.custom
+                                    )
         await self.change_presence(activity=activity)
         self.load_extension("jishaku")
         for filename in os.listdir("GBot/cogs"):
@@ -137,12 +149,17 @@ class GBot(commands.Bot):
         LOG.info('We have logged in as {0.user}'.format(self))
         LOG.info(f'### guilds ### \n{self.guilds}')
         LOG.info('bot ready.')
-        activity = discord.Activity(name = '現在稼働中', type = discord.ActivityType.watching)
+        activity = discord.Activity(
+            name='現在稼働中', type=discord.ActivityType.watching)
         await self.change_presence(activity=activity)
         BOT_USER_ID = 878264570370748416
         DISCORD_TOKEN = self.token
         GUILD_ID = 878265923709075486
-        cmds = await manage_commands.get_all_commands(BOT_USER_ID, DISCORD_TOKEN, GUILD_ID)
+        cmds = await manage_commands.get_all_commands(
+            BOT_USER_ID,
+            DISCORD_TOKEN,
+            GUILD_ID
+        )
         for cmd in cmds:
             LOG.info(cmd)
 
@@ -150,12 +167,12 @@ class GBot(commands.Bot):
         try:
             self.loop.run_until_complete(
                 self.start(self.token)
-                )
+            )
         except discord.LoginFailure:
             LOG.info("Discord Tokenが不正です")
         except KeyboardInterrupt:
             LOG.info("終了します")
             self.loop.run_until_complete(self.close())
-            DB.close(self.mongo_db)
+            DB.close(DB)
         except Exception:
             traceback.print_exc()

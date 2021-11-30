@@ -52,18 +52,18 @@ class Utils(commands.Cog):
         if isinstance(
             error,
             MissingPermissions
-            ):
+        ):
             return await ctx.send(
                 '管理者のみが実行可能です'
-                )
+            )
         if isinstance(
             error,
             MissingRequiredArgument
-            ):
+        ):
 
             return await ctx.send(
                 '引数は新しいPrefixを8文字以内で渡してください'
-                )
+            )
         raise error
 
     @commands.command()
@@ -73,7 +73,7 @@ class Utils(commands.Cog):
         embed = discord.Embed(
             title="Botの概要", description=" ",
             colour=discord.Colour.blue()
-            )
+        )
 
         embed.add_field(
             name="前置き",
@@ -83,7 +83,7 @@ class Utils(commands.Cog):
         embed.add_field(
             name="Bot稼働状態",
             value=url+"のサイトからBotの稼働状態が確認できます。\n緑のランプが付いているときは正常です。"
-            )
+        )
 
         embed.add_field(
             name="サポートサーバー",
@@ -92,7 +92,7 @@ class Utils(commands.Cog):
         )
         await ctx.send(
             embed=embed
-            )
+        )
 
     # 発言時に実行されるイベントハンドラを定義
     @commands.Cog.listener()
@@ -100,12 +100,12 @@ class Utils(commands.Cog):
         if self.bot.user in message.mentions:  # 話しかけられたかの判定
             await reply(
                 message
-                )  # 返信する非同期関数を実行
+            )  # 返信する非同期関数を実行
 
 
 def setup(bot):
     return bot.add_cog(
         Utils(
             bot
-            )
         )
+    )

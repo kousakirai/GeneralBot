@@ -14,9 +14,11 @@ aiofiles = "*"
 psutil = "*"
 autopep8 = "*"
 discord-py-slash-command = "*"
+selenium = "*"
 
 [dev-packages]
 autopep8 = "*"
+flake8 = "*"
 
 [requires]
 python_version = "3.8"

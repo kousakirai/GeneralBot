@@ -11,5 +11,6 @@ class Gbansys(commands.Cog):
     async def setup(self, ctx):
         await ctx.send("Grobal Banのセットアップが開始されました。\n本当に実行しますか？")
 
+
 def setup(bot):
     return bot.add_cog(Gbansys(bot))

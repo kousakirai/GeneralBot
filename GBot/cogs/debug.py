@@ -1,16 +1,14 @@
 # RT Ext - Debug
 
-from discord.ext import commands
-import discord
-
-from jishaku.functools import executor_function
-from aiofiles import open as async_open, os
-from functools import wraps
-import psutil
-from GBot.core.bot import GBot
-from GBot.models.guild import Guild
-import sys
 import os
+import sys
+
+import discord
+import psutil
+from aiofiles import open as async_open
+from discord.ext import commands
+from GBot.core.bot import GBot
+from jishaku.functools import executor_function
 
 
 class Printer:
@@ -28,7 +26,7 @@ class Printer:
     def write(self, text: str):
         self.length += len(
             text
-            )
+        )
         if self.length <= self._max:
             self.output += text
 
@@ -38,7 +36,7 @@ class Printer:
         return print(
             *args,
             **kwargs
-            )
+        )
 
 
 class Debug(commands.Cog):
@@ -54,29 +52,24 @@ class Debug(commands.Cog):
         if not ctx.invoked_subcommand:
             await ctx.reply(
                 "使用方法が違います。使用方法を確認してください"
-                )
+            )
 
     @debug.command()
     async def reboot(self, ctx):
         await ctx.reply(
             "再起動します。"
-            )
-        activity = discord.activity(name="reboot...",type=discord.ActivityType.custom)
+        )
+        activity = discord.activity(
+            name="reboot...",
+            type=discord.ActivityType.custom
+        )
         await self.bot.change_presence(activity=activity)
         python = sys.executable
         os.execl(
             python,
             python,
             *sys.argv
-            )
-
-    @debug.command(name="db_rege")
-    async def Guild_regenerate(self, ctx):
-        Guild.delete_all()
-        for guild in self.bot.guilds:
-            print(guild.name)
-            Guild.create(guild_id=guild.id)
-        await ctx.send("すべてのGuildを再生成しました。")
+        )
 
     @debug.command(aliases=["exec", "run"])
     @commands.is_owner()
@@ -94,7 +87,7 @@ class Debug(commands.Cog):
                 "discord": discord,
                 "self": self,
                 "print": printer.print
-                }
+            }
         )
         result = await self._program()
         async with async_open(self.OUTPUT_PATH, "w") as f:
@@ -104,10 +97,10 @@ class Debug(commands.Cog):
             )
         await ctx.reply(
             file=discord.File(self.OUTPUT_PATH)
-            )
+        )
         await os.remove(
             self.OUTPUT_PATH
-            )
+        )
 
     @executor_function
     def make_monitor_embed(self):
@@ -143,8 +136,8 @@ def setup(bot):
     bot.add_cog(
         Debug(
             bot
-            )
         )
+    )
 
 
 if __name__ == "__main__":
@@ -152,7 +145,7 @@ if __name__ == "__main__":
     exec(
         input(),
         {"print": printer.print}
-        )
+    )
     print(
         printer.output
-        )
+    )

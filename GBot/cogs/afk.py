@@ -7,12 +7,13 @@ class afk(commands.Cog):
         self.bot = bot
 
     @commands.command(name='afk')
-    async def afk(self,ctx,reason):
+    async def afk(self, ctx, reason):
         await ctx.send(reason)
+
 
 def setup(bot):
     return bot.add_cog(
         afk(
             bot
-            )
         )
+    )
